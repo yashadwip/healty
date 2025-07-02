@@ -1,0 +1,78 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block css %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  .material-icons {
+    font-size: 18px;
+    vertical-align: middle;
+  }
+  .text-success {
+    color: #28a745 !important;
+  }
+  .text-danger {
+    color: #dc3545 !important;
+  }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="row mt-4">
+  <div class="col-12">
+    <div class="card">
+      <!-- Card header -->
+      <div class="card-header">
+        <h5 class="mb-0">Daftar Artikel Anda</h5>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-flush" id="datatable-search">
+          <thead class="thead-light">
+            <tr>
+              <th>No</th>
+              <th>Judul</th>
+              <th>Kategori</th>
+              <th>Status</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for artikel in artikel %}
+            <tr>
+              <td class="text-sm font-weight-normal">{{ forloop.counter }}</td>
+              <td class="text-sm font-weight-normal">{{ artikel.judul }}</td>
+              <td class="text-sm font-weight-normal">{{ artikel.kategori }}</td>
+              <td class="text-sm font-weight-normal">
+                {% if artikel.status %}
+                  <span class="text-success">
+                    <span class="material-icons">check_circle</span> True
+                  </span>
+                {% else %}
+                  <span class="text-danger">
+                    <span class="material-icons">cancel</span> False
+                  </span>
+                {% endif %}
+              </td>
+              <td class="text-sm font-weight-normal text-center">
+                <a class="btn btn-warning btn-sm" href="{% url 'artikel_update' artikel.id %}">edit</a>
+                <a class="btn btn-danger btn-sm" onclick="return confirm('yakin ingin di delete?')" href="{% url 'artikel_delete' artikel.id %}">delete</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'dashboard/assets/js/plugins/datatables.js' %}"></script>
+<script>
+  const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
+    searchable: true,
+    fixedHeight: true
+  });
+</script>
+{% endblock %}

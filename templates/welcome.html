@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2>Artikel Terbaru</h2>
+  <div class="row">
+    {% for artikel in artikel_list %}
+      <div class="col-md-4">
+        <div class="card mb-4">
+          {% if artikel.gambar %}
+            <img src="{{ artikel.gambar.url }}" class="card-img-top" alt="{{ artikel.judul }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ artikel.judul }}</h5>
+            <p class="card-text">{{ artikel.isi|truncatewords:20 }}</p>
+            <a href="{% url 'detail_artikel' artikel.id %}" class="btn btn-sm btn-primary">Baca Selengkapnya</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>Tidak ada artikel.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

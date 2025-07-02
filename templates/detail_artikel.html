@@ -1,0 +1,43 @@
+{% extends "landingpage/base.html" %}
+
+{% block title %}{{ artikel.judul }} - Artikel{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <h3 class="text-center mb-4">Deskripsi</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <img src="{{ artikel.gambar.url }}" class="card-img-top" alt="{{ artikel.judul }}">
+                <div class="card-body">
+                    <h4 class="card-title">{{ artikel.judul }}</h4>
+                    <p class="card-text">{{ artikel.isi|safe }}</p>
+                    <a href="/" class="btn btn-primary mt-3">Kembali ke Beranda</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rekomendasi Artikel Lainnya -->
+    {% if rekomendasi %}
+    <hr class="my-5">
+    <h4 class="text-center mb-4">📰 Rekomendasi Artikel Lainnya</h4>
+    <div class="row">
+        {% for item in rekomendasi %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm h-100">
+                {% if item.gambar %}
+                    <img src="{{ item.gambar.url }}" class="card-img-top" alt="{{ item.judul }}">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ item.judul }}</h5>
+                    <p class="card-text mb-3">{{ item.isi|truncatechars:100 }}</p>
+                    <a href="{% url 'detail_artikel' item.id %}" class="btn btn-sm btn-outline-primary mt-auto">Baca Selengkapnya</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

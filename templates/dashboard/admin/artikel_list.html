@@ -1,0 +1,71 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block css %}
+
+{% endblock css %}
+
+{% block content %}
+
+ <div class="row mt-4">
+        <div class="col-12">
+          <div class="card">
+            <!-- Card header -->
+            <div class="card-header">
+              <h5 <a class="mb-0">Daftar Artikel <a class="btn btn-outline-warning" href="{% url 'admin_artikel_tambah' %}" href="">+Tambah</a></h5>>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-flush" id="datatable-search">
+                <thead class="thead-light">
+                  <tr>
+                    <th>No</th>
+                    <th>judul</th>
+                    <th>kategori</th>
+                    <th>status</th>
+                    <th class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for artikel in artikel  %}
+                    <tr>
+                        <td class="text-sm font-weight-normal"> {{ forloop.counter }}</td>
+                        <td class="text-sm font-weight-normal">
+                           {{ artikel.judul }} <br /><span class="badge badge-primary">Created by: {{ artikel.created_by }}</span>
+                           
+                          </td>
+                        <td class="text-sm font-weight-normal">{{  artikel.kategori }}</td>
+                        <td class="text-sm font-weight-normal">
+                           {% if artikel.status %}
+                            <span class="text-success">
+                           <span class="material-icons">check_circle</span> True
+                            </span>
+                           {% else %}
+                             <span class="text-danger">
+                            <span class="material-icons">cancel</span> False
+                             </span>
+                           {% endif %}</td>
+                         <td class="text-sm font-weight-normal text=center">
+                             <a class="btn btn-warning btn-sm" href="{% url 'admin_artikel_update' artikel.id %}">edit</a>
+                             <a class="btn btn-danger btn-sm" onclick="return confirm('yakin ingin di delete?')"href="{% url 'admin_artikel_delete' artikel.id %}">delete</a>
+                         </td>
+                    </tr>
+                    {% endfor %}
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock  %}
+
+    {% block js%}
+      <script src="{% static 'dashboard/assets/js/plugins/datatables.js' %}"></script>
+      <script>
+        const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
+      searchable: true,
+      fixedHeight: true
+    });
+      </script>
+
+      {% endblock  %}

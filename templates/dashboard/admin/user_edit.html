@@ -1,0 +1,110 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block css %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  .badge-soft {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: inline-block;
+  }
+
+  .badge-soft-dark {
+    background-color: #d6d8d9;
+    color: #343a40;
+  }
+
+  .btn-rounded {
+    border-radius: 20px;
+    font-size: 0.8rem;
+    padding: 6px 16px;
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: #6c757d;
+  }
+
+  .form-check-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .form-section {
+    margin-bottom: 1rem;
+  }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="row mt-4">
+  <div class="col-lg-8 mx-auto">
+    <div class="card shadow-sm rounded">
+      <div class="card-header bg-light">
+        <h5 class="mb-0">
+          <span class="material-icons" style="vertical-align: middle;">edit</span> Edit Data User
+        </h5>
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="form-section">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" value="{{ user.username }}" class="form-control" required>
+          </div>
+
+          <div class="form-section">
+            <label class="form-label">First Name</label>
+            <input type="text" name="first_name" value="{{ user.first_name }}" class="form-control" required>
+          </div>
+
+          <div class="form-section">
+            <label class="form-label">Last Name</label>
+            <input type="text" name="last_name" value="{{ user.last_name }}" class="form-control">
+          </div>
+
+          <div class="form-check form-switch form-section">
+            <input class="form-check-input" type="checkbox" name="is_staff" id="is_staff"
+         {% if user.is_staff %}checked{% endif %}>
+            <label class="form-check-label" for="is_staff">Is Staff?</label>
+          </div>
+
+            <hr>
+     
+        <label class="form-label">Daftar Grup</label>
+            {% for group in all_groups %}
+            <div class="form-check">
+              <input type="checkbox"
+                     class="form-check-input" 
+                     id="group_{{group.id }}" 
+                     name="groups" 
+                     value="{{ group.id }}"
+                     {% if group.name in group_user %}checked{% endif %}>
+              <label class="form-check-label" for="group_{{ group.id }}">
+                {{ group.name }}
+              </label>
+            </div>
+            {% endfor %}
+          
+
+          <div class="mt-4">
+            <button type="submit" class="btn btn-success btn-rounded me-2">
+              <span class="material-icons" style="font-size: 16px;">save</span> Simpan
+            </button>
+            <a href="{% url 'admin_management_user_list' %}" class="btn btn-secondary btn-rounded">
+              <span class="material-icons" style="font-size: 16px;">arrow_back</span> Kembali ke Daftar User
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<!-- Tambahan JS jika diperlukan -->
+{% endblock %}

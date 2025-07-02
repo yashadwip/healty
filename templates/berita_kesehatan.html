@@ -1,0 +1,42 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">📰 Berita Terkini</h2>
+
+  <div class="row">
+    {% for item in semua_berita %}
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm p-3 h-100">
+          <h5 class="card-title">{{ item.title }}</h5>
+          <p class="card-text text-muted small">{{ item.deskripsi|truncatewords:20 }}</p>
+          <a href="{{ item.link }}" target="_blank" class="btn btn-sm btn-primary mt-auto">Baca Selengkapnya</a>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12 text-center text-muted">
+        <p>Belum ada berita yang dapat ditampilkan saat ini.</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <hr class="my-5">
+
+  <h4 class="text-center mb-4">📌 Rekomendasi Untuk Anda</h4>
+  <div class="row">
+    {% for item in rekomendasi %}
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm p-3 h-100 border-info">
+          <h5 class="card-title text-info">{{ item.title }}</h5>
+          <p class="card-text text-muted small">{{ item.deskripsi|truncatewords:20 }}</p>
+          <a href="{{ item.link }}" target="_blank" class="btn btn-sm btn-outline-info mt-auto">Lihat</a>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12 text-center text-muted">
+        <p>Tidak ada rekomendasi berita.</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

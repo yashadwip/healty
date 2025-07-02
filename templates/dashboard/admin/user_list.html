@@ -1,0 +1,125 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block css %}
+<!-- Google Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+  .badge-soft {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: inline-block;
+  }
+
+  .badge-soft-success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  .badge-soft-dark {
+    background-color: #d6d8d9;
+    color: #343a40;
+  }
+
+  .badge-soft-pink {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  .btn-rounded {
+    border-radius: 20px;
+    font-size: 0.8rem;
+    padding: 4px 12px;
+  }
+
+  .table thead th {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="row mt-4">
+  <div class="col-12">
+    <div class="card shadow-sm rounded">
+      <div class="card-header bg-light">
+        <h5 class="mb-0">
+          <span class="material-icons" style="vertical-align: middle;">group</span> Daftar User
+        </h5>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle text-center" id="datatable-search">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Username</th>
+              <th>Nama Lengkap</th>
+              <th>Is Staff</th>
+              <th>Groups</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in daftar_user %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>
+                <span class="badge-soft badge-soft-success text-uppercase">{{ user.username }}</span>
+              </td>
+              <td style="color:rgb(64, 188, 225); font-weight: 500;">
+                {{ user.first_name|default:'-' }} {{ user.last_name|default:'' }}
+              </td>
+              <td>
+                {% if user.is_staff %}
+                  <span class="badge-soft badge-soft-success">
+                    <span class="material-icons" style="font-size: 16px; vertical-align: middle;">check_circle</span> 
+                  </span>
+                {% else %}
+                  <span class="badge-soft badge-soft-pink">
+                    <span class="material-icons" style="font-size: 16px; vertical-align: middle;">cancel</span>
+                  </span>
+                {% endif %}
+              </td>
+              <td>
+                {% if user.groups.all %}
+                  {% for group in user.groups.all %}
+                    <span class="badge-soft badge-soft-dark text-uppercase">{{ group.name }}</span>
+                  {% endfor %}
+                {% else %}
+                  <span class="badge-soft badge-soft-dark">-</span>
+                {% endif %}
+              </td>
+              <td>
+                <a class="btn btn-warning btn-sm btn-rounded me-1" href="">
+                  <span class="material-icons" style="font-size: 16px;">edit</span> Edit
+                </a>
+                <a class="btn btn-danger btn-sm btn-rounded" onclick="return confirm('Yakin ingin dihapus?')" href="">
+                  <span class="material-icons" style="font-size: 16px;">delete</span> Delete
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'dashboard/assets/js/plugins/datatables.js' %}"></script>
+<script>
+  const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
+    searchable: true,
+    fixedHeight: true
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'landingpage/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-7">
+      <!-- START Blogs -->
+      <section class="py-5">
+        {% for a in artikel %}
+        <div class="card card-plain card-blog mt-5">
+          <div class="row">
+            <div class="col-lg-4 col-md-4">
+              <div class="card-image position-relative border-radius-lg">
+                <div class="blur-shadow-image">
+                  {% if a.gambar %}
+                  <img class="img border-radius-lg" src="{{ a.gambar.url }}" alt="gambar" loading="lazy">
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-7 col-md-7 my-sm-auto mt-3 ms-sm-3">
+              <h4>
+                <a href="{% url 'detail_artikel' a.id %}" class="text-dark">{{ a.judul }}</a>
+              </h4>
+              <p>{{ a.isi|truncatewords:50 }}</p>
+              <div class="author">
+                <img src="{% static 'landingpage/assets/img/team-4.jpg' %}" alt="team-4" class="avatar avatar-sm shadow me-2 border-radius-lg" loading="lazy">
+                <p class="my-auto">{{ a.created_by }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </section>
+
+      <ul class="pagination pagination-primary mt-4 ml-2">
+        <li class="page-item"><a class="page-link" href="javascript:;">1</a></li>
+        <li class="page-item"><a class="page-link" href="javascript:;">2</a></li>
+        <li class="page-item active"><a class="page-link" href="javascript:;">3</a></li>
+      </ul>
+    </div>
+
+    <div class="col-lg-4 ml-auto">
+      <div class="pt-1 pb-5 position-sticky top-1 mt-lg-8 mt-5">
+
+        <!-- 🔍 Tombol menuju halaman cari_makanan -->
+        <div class="text-center mb-4">
+          <a href="{% url 'cari_makanan' %}" class="btn btn-success btn-block">
+            🔍 Cek Nutrisi Makananmu
+          </a>
+        </div>
+
+        <!-- 📰 Tombol menuju halaman berita terkini -->
+        <div class="text-center mb-4">
+          <a href="{% url 'berita_kesehatan' %}" class="btn btn-info btn-block">
+            📰  Berita Kesehatan Terkini
+          </a>
+        </div>
+
+        <!-- Daftar Kategori -->
+        <h4 class="mt-5">Kategori</h4>
+        <a href="javascript::">
+          {% for k in kategori %}
+          <div class="card justify-content-center mb-3">
+            <div class="card-body p-3">
+              <h6 class="mb-0">{{ k.judul }}</h6>
+              <p class="mb-0 text-body">{{ k.nama }}</p>
+            </div>
+            <div class="position-absolute end-0 me-3 ">
+              <i class="fas fa-angle-right"></i>
+            </div>
+          </div>
+          {% endfor %}
+        </a>
+
+        <!-- Top Stories -->
+        <h4 class="mt-5">Top Stories</h4>
+
+        <div class="card card-plain card-blog mt-4">
+          <div class="row">
+            <div class="col-lg-4 col-md-4">
+              <div class="card-image position-relative border-radius-lg">
+                <div class="blur-shadow-image">
+                  <img class="img border-radius-lg" src="{% static 'picture/4sehat5sempurna.jpg' %}" alt="story1">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8 col-md-8 my-sm-auto mt-3">
+              <h5><a href="javascript:;" class="text-dark font-weight-normal">4 Sehat 5 Sempurna</a></h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-plain card-blog mt-4">
+          <div class="row">
+            <div class="col-lg-4 col-md-4">
+              <div class="card-image position-relative border-radius-lg">
+                <div class="blur-shadow-image">
+                  <img class="img border-radius-lg" src="{% static 'picture/olahraga.jpg' %}" alt="story1">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8 col-md-8 my-sm-auto mt-3">
+              <h5><a href="javascript:;" class="text-dark font-weight-normal">Olahraga Teratur</a></h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-plain card-blog mt-4">
+          <div class="row">
+            <div class="col-lg-4 col-md-4">
+              <div class="card-image position-relative border-radius-lg">
+                <div class="blur-shadow-image">
+                  <img class="img border-radius-lg" src="{% static 'picture/puasa.jpg' %}" alt="story1">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8 col-md-8 my-sm-auto mt-3">
+              <h5><a href="javascript:;" class="text-dark font-weight-normal">Puasa Untuk Diet</a></h5>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
